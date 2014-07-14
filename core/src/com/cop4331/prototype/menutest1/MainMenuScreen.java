@@ -22,6 +22,8 @@ public class MainMenuScreen implements Screen {
 	ShapeRenderer sRender;
 	Vector3 touchPoint;
 	Rectangle playBounds;
+	Rectangle achievementBounds;
+	Rectangle highScoreBounds;
 	
 	public MainMenuScreen(MyGdxGame aGame)
 	{
@@ -35,6 +37,8 @@ public class MainMenuScreen implements Screen {
 		touchPoint = new Vector3();
 		
 		playBounds = new Rectangle(110, 170, 240, 40);
+		highScoreBounds = new Rectangle(110,130, 240, 40);
+		achievementBounds = new Rectangle(110, 90, 240, 40);
 		
 	}
 	
@@ -50,6 +54,16 @@ public class MainMenuScreen implements Screen {
 			if (OverlapTester.pointInRectangle(playBounds, touchPoint.x, touchPoint.y)) 
 			{
 				System.out.println("Play a game");
+				return;
+			}
+			else if (OverlapTester.pointInRectangle(highScoreBounds, touchPoint.x, touchPoint.y))
+			{
+				game.gameInterface.getLeaderboardGPGS();
+				return;
+			}
+			else if (OverlapTester.pointInRectangle(achievementBounds, touchPoint.x, touchPoint.y))
+			{
+				game.gameInterface.getAchievementsGPGS();
 				return;
 			}
 		}
@@ -75,7 +89,7 @@ public class MainMenuScreen implements Screen {
 		
 		 sRender.begin(ShapeType.Filled);
 		 sRender.setColor(0, 1, 0, 1);
-		 sRender.rect(110, 170, 240, 40);
+		 sRender.rect(110,130, 240, 40);
 		 sRender.end();
 		
 	

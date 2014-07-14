@@ -8,4 +8,6 @@ public interface GoogleGameInterface
 	public void getLeaderboardGPGS();
 	public void getAchievementsGPGS();
 	public void logOutGPGS();
+	public void unlockAchievementGPGS(String achievementId);
+
 }

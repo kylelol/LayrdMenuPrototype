@@ -29,8 +29,10 @@ public class AndroidLauncher extends AndroidApplication implements GoogleGameInt
 	    // enable debug logs (if applicable)
 	    GameHelperListener listener = new GameHelper.GameHelperListener() {
 	        @Override
-	        public void onSignInSucceeded() {
+	        public void onSignInSucceeded() 
+	        {
 	            // handle sign-in succeess
+	        	unlockAchievementGPGS("CgkI78movo8SEAIQAQ");
 
 	        }
 	        @Override
@@ -110,5 +112,10 @@ public class AndroidLauncher extends AndroidApplication implements GoogleGameInt
 		// TODO Auto-generated method stub
 		mHelper.signOut();
 		
+	}
+	
+	@Override
+	public void unlockAchievementGPGS(String achievementId) {
+		Games.Achievements.unlock(mHelper.getApiClient(), achievementId);
 	}
 }

@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 public class MainMenuScreen implements Screen {
 
@@ -15,6 +19,9 @@ public class MainMenuScreen implements Screen {
 	SpriteBatch batch;
 	Texture img;
 	OrthographicCamera guiCam;
+	ShapeRenderer sRender;
+	Vector3 touchPoint;
+	Rectangle playBounds;
 	
 	public MainMenuScreen(MyGdxGame aGame)
 	{
@@ -24,6 +31,10 @@ public class MainMenuScreen implements Screen {
 		guiCam.position.set(480/2,320/2,0);
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		sRender = new ShapeRenderer();
+		touchPoint = new Vector3();
+		
+		playBounds = new Rectangle(110, 170, 240, 40);
 		
 	}
 	
@@ -32,21 +43,40 @@ public class MainMenuScreen implements Screen {
 		System.out.println(Gdx.input.getX() + "----" + Gdx.input.getY());
 	}
 	
+	public void update (float deltaTime) {
+		if (Gdx.input.justTouched()) {
+			guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+			if (OverlapTester.pointInRectangle(playBounds, touchPoint.x, touchPoint.y)) 
+			{
+				System.out.println("Play a game");
+				return;
+			}
+		}
+	}
+	
 	@Override
 	public void render(float delta) {
 		
-		handleInput();
+		update(delta);
+		
 		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		guiCam.update();
 		batch.setProjectionMatrix(guiCam.combined);
+		sRender.setProjectionMatrix(guiCam.combined);
 		
 
 		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.draw(Assets.mainMenu, 0, 0);
+		//batch.draw(img, 0, 0);
+		batch.draw(Assets.mainMenu, 80, 100);
 		batch.end();
+		
+		 sRender.begin(ShapeType.Filled);
+		 sRender.setColor(0, 1, 0, 1);
+		 sRender.rect(110, 170, 240, 40);
+		 sRender.end();
 		
 	
 		
